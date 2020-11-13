@@ -1,0 +1,15 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{css/bootstrap.min.css}" rel="stylesheet"/>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 th:text="${projectName}" />
+    <b>Client:</b> <p th:text="${clientUri}"></p>
+    <b>Api:</b> <p th:text="${apiV1Uri}"></p>
+</div>
+</body>
+</html>
