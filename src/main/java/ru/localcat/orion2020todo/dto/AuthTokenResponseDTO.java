@@ -1,4 +1,4 @@
-package ru.localcat.orion2020todo.responses;
+package ru.localcat.orion2020todo.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,9 +6,10 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthResponse {
+@Deprecated
+public class AuthTokenResponseDTO {
+    @Getter
+    private String login;
     @Getter
     private String token;
-    @Getter
-    private Integer code;
 }

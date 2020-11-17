@@ -1,17 +1,13 @@
 package ru.localcat.orion2020todo.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.localcat.orion2020todo.security.models.Role;
+import ru.localcat.orion2020todo.security.models.Status;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
@@ -29,4 +25,19 @@ public class User {
     //TODO Как скрывать из парсе рестового контролеа, кторый респонсит?
     //@JsonIgnore
     private String password;
+    @Getter
+    @Setter
+    private String name;
+    @Getter
+    @Setter
+    private String email;
+    //Для поля роли неплохо бы хранить список ролей, в случае если стурткра будет более сложной.. или роль должна быть только одна?
+    @Getter
+    @Setter
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+    @Getter
+    @Setter
+    @Enumerated(value = EnumType.STRING)
+    private Status status;
 }

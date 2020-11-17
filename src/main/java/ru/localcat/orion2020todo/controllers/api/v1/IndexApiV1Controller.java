@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.localcat.orion2020todo.constants.ApiConstants;
-import ru.localcat.orion2020todo.responses.AuthResponse;
 
 @RestController
 @RequestMapping(ApiConstants.VERSION1_PATH)
-public class IndexApiController {
+public class IndexApiV1Controller {
 
     @GetMapping
     public ResponseEntity<String> getApiDescription() {
