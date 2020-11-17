@@ -36,7 +36,11 @@ public class AuthV1Controller {
     @PostMapping
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
         try {
+            //TODO из-за чувака ниже все аффектиться ((
+            //TODO ТУТ БЕДА (((((
             //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
+
             User user = userRepository.findByLogin(request.getLogin());
             if(user == null) {
                 throw new UsernameNotFoundException("User doesn't exists");
