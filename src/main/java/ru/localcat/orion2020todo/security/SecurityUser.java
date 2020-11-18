@@ -1,6 +1,7 @@
 package ru.localcat.orion2020todo.security;
 
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,7 @@ import ru.localcat.orion2020todo.security.models.Status;
 import java.util.Collection;
 import java.util.List;
 
+@Data
 public class SecurityUser implements UserDetails {
 
     private final String login;

@@ -2,6 +2,7 @@ package ru.localcat.orion2020todo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import ru.localcat.orion2020todo.exceptions.UserException;
 import ru.localcat.orion2020todo.helpers.PasswordHelper;
 import ru.localcat.orion2020todo.models.User;
@@ -10,14 +11,16 @@ import ru.localcat.orion2020todo.repositories.UserRepository;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
+@Service
 public class UserService {
+
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public User createUser(User user) throws NoSuchAlgorithmException {
-        User userInDb = userRepository.findByLogin(user.getLogin());
+        Optional<User> userInDb = userRepository.findByLogin(user.getLogin());
 
-        if (userInDb != null) {
+        if(userInDb.isPresent()) {
             throw new UsernameNotFoundException("User is exists");
         }
 

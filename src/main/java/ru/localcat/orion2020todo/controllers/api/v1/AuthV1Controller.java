@@ -1,5 +1,6 @@
 package ru.localcat.orion2020todo.controllers.api.v1;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,8 +24,11 @@ import java.util.Map;
 @RequestMapping(ApiConstants.VERSION1_PATH + "/auth")
 public class AuthV1Controller {
 
+    @Autowired
     private final AuthenticationManager authenticationManager;
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
     public AuthV1Controller(AuthenticationManager authenticationManager, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
@@ -36,15 +40,9 @@ public class AuthV1Controller {
     @PostMapping
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequestDTO request) {
         try {
-            //TODO из-за чувака ниже все аффектиться ((
-            //TODO ТУТ БЕДА (((((
-            //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getLogin(), request.getPassword()));
-
-            User user = userRepository.findByLogin(request.getLogin());
-            if(user == null) {
-                throw new UsernameNotFoundException("User doesn't exists");
-            }
+            User user = userRepository.findByLogin(request.getLogin())
+                    .orElseThrow(() -> new UsernameNotFoundException("User doesn't exists"));
             String token = jwtTokenProvider.createToken(request.getLogin(), user.getRole().name());
             Map<Object, Object> response = new HashMap<>();
             response.put("login", request.getLogin());

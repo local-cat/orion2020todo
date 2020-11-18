@@ -21,7 +21,11 @@ public class UserV1Controller {
 
     @Autowired
     private UserRepository userRepository;
-    private final UserService userService = new UserService();
+    //TODO не надо так???
+    //ЛУчше создать интерфейс типа UserServiceIterface  и автоваредить его тут, а его реализоввать уже
+    // в UserService?
+    @Autowired
+    private final UserService userService = null;
 
     //Получить список всех пользователй, пока без пагинации
     @GetMapping
@@ -32,6 +36,7 @@ public class UserV1Controller {
 
     // Получить пользователя по id
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('users:read')")
     public User getUserById(@PathVariable(value = "id") Long userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "User not found!"));
