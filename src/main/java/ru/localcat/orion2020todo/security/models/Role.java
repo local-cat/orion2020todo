@@ -9,32 +9,41 @@ import java.util.stream.Collectors;
 
 public enum Role {
     //Не использую Set.of, подразумевая, что проект должен иметь поддрежку Java 8;
-    USER(null),
-    MODERATOR(
+    USER("Пользователь", null),
+    MODERATOR("Модератор",
             new HashSet<Permission>() {
                 {
                     add(Permission.USERS_READ);
+                    add(Permission.USERS_ALL_READ);
                 }
             }
     ),
-    ADMIN(
+    ADMIN("Администратор",
             new HashSet<Permission>() {
                 {
                     add(Permission.USERS_READ);
+                    add(Permission.USERS_ALL_READ);
                     add(Permission.USERS_CREATE);
                     add(Permission.USERS_EDIT);
+                    add(Permission.USERS_DELETE);
                 }
             }
     );
 
     private final Set<Permission> permissions;
+    private final String roleDescription;
 
-    Role(Set<Permission> permissions) {
+    Role(String roleDescription, Set<Permission> permissions) {
+        this.roleDescription = roleDescription;
         this.permissions = permissions;
     }
 
     public Set<Permission> getPermissions() {
         return permissions;
+    }
+
+    public String getRoleDescription() {
+        return roleDescription;
     }
 
     public Set<SimpleGrantedAuthority> getAuthorities() {

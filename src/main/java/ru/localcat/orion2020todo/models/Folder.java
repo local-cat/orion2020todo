@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Folder {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private Long id;
     @Getter
@@ -25,8 +25,10 @@ public class Folder {
     @Setter
     private String name;
     @Getter
+    @Setter
     private Long ownerId;
     @Getter
+    @Setter
     private Integer createAt;
     @Getter
     @Setter

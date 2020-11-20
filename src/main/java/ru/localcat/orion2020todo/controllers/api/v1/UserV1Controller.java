@@ -25,7 +25,7 @@ public class UserV1Controller {
     //ЛУчше создать интерфейс типа UserServiceIterface  и автоваредить его тут, а его реализоввать уже
     // в UserService?
     @Autowired
-    private final UserService userService = null;
+    private UserService userService;
 
     //Получить список всех пользователй, пока без пагинации
     @GetMapping

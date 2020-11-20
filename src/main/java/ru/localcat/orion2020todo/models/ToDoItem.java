@@ -12,13 +12,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class ToDoItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private Long id;
     @Getter
     @Setter
     private Long folderId;
     @Getter
+    @Setter
     private Long ownerId;
     @Getter
     @Setter
@@ -28,6 +29,7 @@ public class ToDoItem {
     @Setter
     private Boolean status;
     @Getter
+    @Setter
     private Integer createAt;
     @Getter
     @Setter

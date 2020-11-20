@@ -20,7 +20,7 @@ public class UserService {
     public User createUser(User user) throws NoSuchAlgorithmException {
         Optional<User> userInDb = userRepository.findByLogin(user.getLogin());
 
-        if(userInDb.isPresent()) {
+        if (userInDb.isPresent()) {
             throw new UsernameNotFoundException("User is exists");
         }
 
@@ -31,8 +31,24 @@ public class UserService {
     public User updateUser(Long userId, User userDetails) throws NoSuchAlgorithmException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException("User not found!"));
-        user.setPassword(PasswordHelper.encode(userDetails.getPassword()));
-        user.setLogin(userDetails.getLogin());
+
+        //MB denied edit login???
+        if (userDetails.getLogin() != null) {
+            user.setLogin(userDetails.getLogin());
+        }
+        if (userDetails.getPassword() != null) {
+            user.setPassword(PasswordHelper.encode(userDetails.getPassword()));
+        }
+        if (userDetails.getName() != null) {
+            user.setName(userDetails.getName());
+        }
+        if (userDetails.getRole() != null) {
+            user.setRole(userDetails.getRole());
+        }
+        if (userDetails.getStatus() != null) {
+            user.setStatus(userDetails.getStatus());
+        }
+
         return userRepository.save(user);
     }
 
