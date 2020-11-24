@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.localcat.orion2020todo.exceptions.AccessDeniedException;
 import ru.localcat.orion2020todo.exceptions.ToDoItemException;
 import ru.localcat.orion2020todo.helpers.DateTimeHelper;
-import ru.localcat.orion2020todo.helpers.WrapperHelper;
 import ru.localcat.orion2020todo.models.ToDoItem;
 import ru.localcat.orion2020todo.repositories.ToDoItemRepository;
 

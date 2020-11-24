@@ -1,7 +1,5 @@
 package ru.localcat.orion2020todo.security.models;
 
-import javax.print.DocFlavor;
-
 public enum Permission {
     USERS_READ("users:read", "Смотреть пользователя"),
     USERS_ALL_READ("users:all:read", "Смотреть всех пользователей"),

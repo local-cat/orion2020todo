@@ -21,9 +21,6 @@ public class UserV1Controller {
 
     @Autowired
     private UserRepository userRepository;
-    //TODO не надо так???
-    //ЛУчше создать интерфейс типа UserServiceIterface  и автоваредить его тут, а его реализоввать уже
-    // в UserService?
     @Autowired
     private UserService userService;
 
