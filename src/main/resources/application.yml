@@ -1,0 +1,14 @@
+jwt:
+    expiration: 6048000
+    header: AuthToken
+    secret: cripterKey192837465
+server:
+    port: 8081
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/jtodo?useUnicode=true&serverTimezone=UTC
+        username: root
+        password: root
+    jpa:
+        hibernate:
+            ddl-auto: update
