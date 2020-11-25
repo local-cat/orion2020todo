@@ -9,6 +9,9 @@ import ru.localcat.orion2020todo.helpers.DateTimeHelper;
 import ru.localcat.orion2020todo.models.Folder;
 import ru.localcat.orion2020todo.repositories.FolderRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class FolderService {
 
@@ -18,6 +21,12 @@ public class FolderService {
     private FolderRepository folderRepository;
     @Autowired
     private AuthUserContextService authUserContextService;
+    @Autowired
+    private ToDoItemService toDoItemService;
+
+    public List<Folder> getFoldersList(Long parentFolderId) {
+         return folderRepository.findByParentIdAndOwnerId(parentFolderId, authUserContextService.getId());
+    }
 
     public Folder createFolder(Folder folder) {
         folder.setOwnerId(authUserContextService.getId());
@@ -55,11 +64,21 @@ public class FolderService {
     }
 
     public void deleteFolder(Long id) {
-        //TODO надо мутануть какуюнть тему, если у папки есть дочки, не тру сносить будет, можно всех найти перебрать и выставить в НУЛЛ конечно
         Folder folder = folderRepository.findById(id)
                 .orElseThrow(() -> new ToDoItemException("Folder not found!"));
         if (!isAccess(folder.getOwnerId())) {
             throw new AccessDeniedException("You don have permission for this Folder");
+        }
+        //Пошел по самому простмоу пути, чтобы не обходить рекурсивно папки и не менять паренты папкам и замтеткам
+        //Проверяим нет ли дочерних папок
+        if(getFoldersList(id) != null && getFoldersList(id).size() > 0) {
+            throw new FolderException("Не возможно удалить, пока существуют дочерние папки, удалите сначала их.");
+        }
+        //Проверим, есть ли заметки в папке
+        List<Long> folderIds = new ArrayList<>();
+        folderIds.add(id);
+        if(toDoItemService.getMyTodoList(folderIds) != null && toDoItemService.getMyTodoList(folderIds).size() > 0) {
+            throw new ToDoItemException("Не возможно удалить, пока существуют заметки в папке, удалите сначала их.");
         }
         folderRepository.delete(folder);
     }
@@ -71,3 +90,4 @@ public class FolderService {
     }
 
 }
+

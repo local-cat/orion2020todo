@@ -21,13 +21,12 @@ public class ToDoItemV1Controller {
     @Autowired
     private ToDoItemService toDoItemService;
 
-    //TODO сделать под гет вывод и вывод из папки/папок ?
     @GetMapping
     public List<ToDoItem> getToDoItemsList() {
         return (List<ToDoItem>) toDoItemService.getMyTodoList(null);
     }
 
-    //TODO так бы чтобы без \того вот безобразия в иделае пришить какуюнить серч модел,
+    //TODO так бы чтобы без того вот безобразия в иделае пришить какуюнить серч модел, (не нравиться идея передавать параметры фильтров в гете, хотя того требует ретсфул)
     // отдельный эндпоинт, который по хитрым филтрам умеет выдать нужные данные
     @GetMapping("/folders/{idsText}")
     public List<ToDoItem> getToDoItemsListInFolders(@PathVariable(value = "idsText") String folderIdsInLine) {

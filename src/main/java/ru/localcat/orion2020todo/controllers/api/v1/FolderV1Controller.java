@@ -11,6 +11,7 @@ import ru.localcat.orion2020todo.services.FolderService;
 
 import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @RestController
 @RequestMapping(ApiConstants.VERSION1_PATH + "/folders")
@@ -19,8 +20,16 @@ public class FolderV1Controller {
     @Autowired
     private FolderService folderService;
 
+    //TODO Можно ли как два нижних метода объединить в один , а тчонее объеденить их ГЕтМаппинги?
+    @GetMapping()
+    public List<Folder> getFolders() {
+        return folderService.getFoldersList(FolderService.SUPER_PARENT_FOLDER_ID);
+    }
 
-    //TODO запилить метод ля получения дочернeeих папок и списка папок
+    @GetMapping("/{id}")
+    public List<Folder> getFoldersWithParentId(@PathVariable(value = "id") Long parentFolderId) {
+        return folderService.getFoldersList(parentFolderId);
+    }
 
     @PostMapping
     public Folder createFolder(@Valid @RequestBody Folder folder) {

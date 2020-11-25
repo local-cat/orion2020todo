@@ -19,10 +19,12 @@ public class User {
     private long id;
     @Getter
     @Setter
+    @Column(unique=true)
     private String login;
     @Getter
     @Setter
     //TODO Как скрывать из парсе рестового контролеа, кторый респонсит?
+    //TODO элегантым способом, типа аннотацией, а не писать свою ДТО и возвращать его
     //@JsonIgnore
     private String password;
     @Getter

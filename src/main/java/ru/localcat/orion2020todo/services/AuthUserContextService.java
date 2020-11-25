@@ -13,10 +13,9 @@ public class AuthUserContextService {
 
     @Autowired
     private UserRepository userRepository;
+    private Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     public long getId() {
-        //TODO Можно как то проще получать айди пользователя, а не лазить лишний раз в БД????
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User user = userRepository.findByLogin(userName)
                 .orElseThrow(() -> new UserException("User not found!"));
@@ -24,9 +23,6 @@ public class AuthUserContextService {
     }
 
     public boolean checkPermission(String permission) {
-        //TODO  вынести ьбы куданить эту аунтфикацию
-        // TODO  !!!!!!!!!!   и доеделать
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getAuthorities().contains(permission);
     }
 }
