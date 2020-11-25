@@ -28,15 +28,18 @@ public class UserV1Controller {
     @GetMapping
     @PreAuthorize("hasAuthority('users:read')")
     public List<User> getUsersList() {
-        return (List<User>) userRepository.findAll();
+        return userService.getUsersList();
     }
 
     // Получить пользователя по id
     @GetMapping("/{id}")
     @PreAuthorize("hasAuthority('users:read')")
     public User getUserById(@PathVariable(value = "id") Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "User not found!"));
+        try {
+            return userService.getUserById(userId);
+        } catch (Exception exception) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage());
+        }
     }
 
     // Создать пользователя

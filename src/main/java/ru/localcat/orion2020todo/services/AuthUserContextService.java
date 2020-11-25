@@ -8,14 +8,26 @@ import ru.localcat.orion2020todo.exceptions.UserException;
 import ru.localcat.orion2020todo.models.User;
 import ru.localcat.orion2020todo.repositories.UserRepository;
 
+import javax.annotation.PostConstruct;
+
 @Service
 public class AuthUserContextService {
 
     @Autowired
     private UserRepository userRepository;
-    private Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+//TODO так не работает, а как можно вынести  authentication, и возможно ли ?
+/*
+    private Authentication authentication;
+
+    @PostConstruct
+    public void init() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    }
+*/
 
     public long getId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User user = userRepository.findByLogin(userName)
                 .orElseThrow(() -> new UserException("User not found!"));
@@ -23,6 +35,7 @@ public class AuthUserContextService {
     }
 
     public boolean checkPermission(String permission) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getAuthorities().contains(permission);
     }
 }
