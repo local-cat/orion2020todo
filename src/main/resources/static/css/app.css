@@ -1,0 +1,115 @@
+.activeTask {
+    color: #000000;
+    text-decoration : none;
+}
+
+.completeTask {
+    color: #87a8d0;
+    text-decoration : line-through;
+    background: #f1f1f1;
+    border-left: 1px solid #d7d7d7;
+    border-right: 1px solid #d7d7d7;
+}
+
+.highlightItem:hover {
+    background: #cde6fa;
+}
+
+
+#folderHeaderForToDoList::before {
+    content: '\f07c ';
+    font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Brands';
+    font-weight: 400;
+    font-size: 1em;
+    width: 50px;
+    height: 30px;
+    color: #60aae0;
+}
+
+
+
+.fafolder::after{
+    content: '\f07b';
+    font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Brands';
+    font-weight: 900;
+    font-size: 1.4em;
+    width: 32px;
+    height: 30px;
+    color: #aeb9c0;
+}
+
+.fafolderroot::after {
+    color: #757f86;
+}
+/* _______________________          */
+.fafolder-new::after{
+    content: '\f055';
+}
+.fafolder-new:hover::after{
+    color: #7dc38c;
+}
+
+.fafolder-edit::after {
+    content: '\f044';
+}
+.fafolder-edit:hover::after{
+    color: #a1a1a1;
+}
+
+.fafolder-delete::after {
+    content: '\f2ed';
+}
+.fafolder-delete:hover::after{
+    color: #c37d7d;
+}
+
+.fafolder-common {
+    font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Brands';
+    font-weight: 900;
+    font-size: 1.1em;
+    width: 32px;
+    height: 30px;
+    color: #d6d6d6;
+    margin-right: .5em;
+    cursor: pointer;
+}
+
+
+
+.folderAttr {
+    display: inline-block;
+    padding-right: .5rem;
+    padding-left: .3rem;
+    padding-bottom: .1rem;
+    cursor: pointer;
+
+}
+
+
+/* to_do __________________________________*/
+
+
+.fatodo-edit::after {
+    content: '\f044';
+}
+.fatodo-edit:hover::after{
+    color: #a1a1a1;
+}
+
+.fatodo-delete::after {
+    content: '\f2ed';
+}
+.fatodo-delete:hover::after{
+    color: #c37d7d;
+}
+
+.fatodo-common {
+    font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Brands';
+    font-weight: 900;
+    font-size: 1.1em;
+    width: 32px;
+    height: 30px;
+    color: #d6d6d6;
+    margin-right: .5em;
+    cursor: pointer;
+}

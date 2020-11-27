@@ -46,12 +46,13 @@ public class FolderService {
     public Folder updateFolder(Long folderId, Folder folder) {
         Folder folderInDb = folderRepository.findById(folderId)
                 .orElseThrow(() -> new FolderException("Folder not found!"));
+// TODO проверку мне азпилить для парент деректории
 
-        if (!isAccess(folder.getOwnerId())) {
+        if (!isAccess(folderInDb.getParentId())) {
             throw new AccessDeniedException("You don have permission for this Folder");
         }
 
-        if (!isAccess(folder.getParentId())) {
+        if (!isAccess(folderId)) {
             throw new AccessDeniedException("You don have permission for this Folder");
         }
 
@@ -84,9 +85,14 @@ public class FolderService {
     }
 
     public boolean isAccess(Long folderId) {
-        Folder folderInDb = folderRepository.findById(folderId)
-                .orElseThrow(() -> new FolderException("Folder not found!"));
-        return folderInDb.getOwnerId() == authUserContextService.getId();
+        if(folderId != FolderService.SUPER_PARENT_FOLDER_ID) {
+            Folder folderInDb = folderRepository.findById(folderId)
+                    .orElseThrow(() -> new FolderException("Folder not found!"));
+
+            return folderInDb.getOwnerId() == authUserContextService.getId();
+        }
+
+        return true;
     }
 
 }

@@ -24,4 +24,6 @@ public class ProfileV1Controller {
     public User getMyProfile() {
         return userService.getUserById(authUserContextService.getId());
     }
+
+    //TODO сделать редакирование пользователя самого себя
 }

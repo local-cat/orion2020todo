@@ -47,7 +47,7 @@ public class ToDoItemService {
         ToDoItem toDoItemInDb = toDoItemRepository.findById(toDoItemId)
                 .orElseThrow(() -> new ToDoItemException("ToDo not found!"));
 
-        if (!isAccess(toDoItemInDb.getOwnerId())) {
+        if (!this.isAccess(toDoItemId)) {
             throw new AccessDeniedException("You don have permission for this todoItem");
         }
 

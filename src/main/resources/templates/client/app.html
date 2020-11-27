@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Summer//TODO Project Work (Orion)</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
+    <link href="/css/all.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/cookiehelper.js"></script>
+    <script src="/js/applogic.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
+    <span class="navbar-brand col-sm-3 col-md-2 mr-0"><b>Summer//TODO &nbsp;&nbsp;&nbsp; <span id="username" style="color: #84d593">...</span></b></span>
+    <input id="addNewTask" class="form-control form-control-dark w-100" type="text" placeholder="Add new TODO (and press ENTER KEY)"
+           aria-label="Add new TODO">
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a id="signOutButton" class="nav-link" href="#">Sign out</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span>Folders</span>
+                    <a class="d-flex align-items-center text-muted" href="#">
+                        <span data-feather="plus-circle"></span>
+                    </a>
+                </h6>
+
+                <ul class="nav flex-column">
+                    <li class="nav-item folderItem" data-folder-id="0">
+                        <div style="display: inline-block" >
+                            <span class="fafolder fafolderroot"></span>
+                        </div>
+                        <div class="folderAttr" data-folder-id = "0" data-folder-name="Root folder" >Root folder</div>
+                        <div class="newFolder" style="display: inline-block; color: #03a023; font-weight: bold;">
+                            <span class="fafolder-common fafolder-new" data-folder-id="0"></span>
+                        </div>
+                        <div class="folderListContainer" data-parent-folder-id = "0" >
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+            <h2 id="folderHeaderForToDoList"> Root folder</h2>
+            <div class="table-responsive">
+                <table id="todoTableList" class="table  table-sm">
+                    <thead>
+                    <tr>
+                        <th style="width: 1rem">Done</th>
+                        <th>Description</th>
+                        <th style="width: 5rem">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+                <div id="loaderToDoList" style="text-align: center;">
+                    <img src="../img/loader.gif">
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+</body>
+</html>

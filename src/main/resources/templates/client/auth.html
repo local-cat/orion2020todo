@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SummerToDo Project Work (Orion)</title>
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/signin.css" rel="stylesheet">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/cookiehelper.js"></script>
+    <script src="/js/authlogic.js"></script>
+</head>
+
+<style>
+    #error {
+        display: none;
+        color: #eeeeee;
+    }
+</style>
+<script lang="javascript">
+
+
+</script>
+
+<body class="text-center">
+<form class="form-signin">
+    <img class="mb-4" src="../img/logo.png" alt="" width="72" height="72">
+    <h1 style="color: #FAFAFA" class="h3 mb-3 font-weight-normal cover-heading">Please sign in</h1>
+    <label for="login" class="sr-only">Login</label>
+    <input type="text" id="login" class="form-control" placeholder="Login" required autofocus>
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+
+    <button id="authButton" class="btn btn-lg btn-primary btn-block" type="button">Sign in</button>
+
+    <div id="error" class="block">
+        <br />
+        Ошибка такой пользователь не найден.
+    </div>
+
+</form>
+</body>
+</html>

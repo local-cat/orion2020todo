@@ -30,12 +30,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/client/**", "/static/**", "/css/**", "/img/**", "/js/**", "/webfonts/**").permitAll()
                 .antMatchers(ApiConstants.VERSION1_PATH + "/auth").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .apply(jwtConfigurer);
+        http.cors();
     }
 
     @Bean
