@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Summer//TODO Project Work (Orion)</title>
+
+    <title>Summer//TODO Project Work (Orion)</title>
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
+    <link href="/css/all.css" rel="stylesheet">
+    <link href="/css/app.css" rel="stylesheet">
+    <link href="/css/mapp_bootstrap.css" rel="stylesheet">
+    <link href="/css/mapp_dashboard.css" rel="stylesheet">
+    <link href="/css/mapp_main.css" rel="stylesheet">
+
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/cookiehelper.js"></script>
+    <script src="../js/applogic.js"></script>
+
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top bg-dark" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand"  href="/client/app">
+                <b><i class="fas fa-desktop"></i> Summer//TODO &nbsp;&nbsp;&nbsp; <span id="username" style="color: #84d593">...</span></b>
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a id="signOutButton" class="nav-link" href="#">Sign out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                <span>Folders</span>
+                <a class="d-flex align-items-center text-muted" href="#">
+                    <span data-feather="plus-circle"></span>
+                </a>
+            </h6>
+
+            <ul class="nav flex-column">
+                <li class="nav-item folderItem" style="padding: 0;" data-folder-id="0">
+                    <div style="display: inline-block">
+                        <span class="fafolder fafolderroot"></span>
+                    </div>
+                    <div class="folderAttr" data-folder-id="0" data-folder-name="Root folder">Root folder</div>
+                    <div class="newFolder" style="display: inline-block; color: #03a023; font-weight: bold;">
+                        <span class="fafolder-common fafolder-new" data-folder-id="0"></span>
+                    </div>
+                    <div class="folderListContainer" data-parent-folder-id="0">
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+
+
+        <div id="workspace" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <input id="addNewTask" class="form-control form-control-dark w-100" type="text"
+                   placeholder="Add new TODO (and press ENTER KEY)"
+                   aria-label="Add new TODO">
+
+
+            <main role="main">
+
+                <h2 id="folderHeaderForToDoList"> Root folder</h2>
+                <div class="table-responsive">
+                    <table id="todoTableList" class="table  table-sm">
+                        <thead>
+                        <tr>
+                            <th style="width: 1rem">Done</th>
+                            <th>Description</th>
+                            <th style="width: 7rem">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                    <div id="loaderToDoList" style="text-align: center;">
+                        <img src="../img/loader.gif">
+                    </div>
+                </div>
+            </main>
+
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

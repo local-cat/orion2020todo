@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Summer//TODO Project Work (Orion)</title>
+    <link rel="icon" type="image/png" href="/img/favicon.png" />
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/dashboard.css" rel="stylesheet">
     <link href="/css/all.css" rel="stylesheet">
@@ -15,7 +16,11 @@
 
 <body>
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-    <span class="navbar-brand col-sm-3 col-md-2 mr-0"><b>Summer//TODO &nbsp;&nbsp;&nbsp; <span id="username" style="color: #84d593">...</span></b></span>
+<!--    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/client/m.app">-->
+    <a class="navbar-brand col-sm-3 col-md-3 mr-0" href="/client/m.app">
+        <b><i class="fas fa-mobile"></i> Summer//TODO &nbsp;&nbsp;&nbsp; <span id="username" style="color: #84d593">...</span>
+        </b>
+    </a>
     <input id="addNewTask" class="form-control form-control-dark w-100" type="text" placeholder="Add new TODO (and press ENTER KEY)"
            aria-label="Add new TODO">
     <ul class="navbar-nav px-3">
@@ -27,7 +32,8 @@
 
 <div class="container-fluid">
     <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+<!--    <nav class="col-md-2 d-none d-md-block bg-light sidebar">-->
+        <nav class="col-md-3 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
 
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -53,7 +59,8 @@
             </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+<!--        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">-->
+        <main role="main" class="col-md-8 ml-sm-auto col-lg-9 pt-3 px-4">
 
             <h2 id="folderHeaderForToDoList"> Root folder</h2>
             <div class="table-responsive">

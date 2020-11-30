@@ -5,6 +5,7 @@ target/
 !**/src/test/**/target/
 
 /application.yml
+/files_upload
 
 ### STS ###
 .apt_generated

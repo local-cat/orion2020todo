@@ -67,7 +67,7 @@ public class FolderService {
     public void deleteFolder(Long id) {
         Folder folder = folderRepository.findById(id)
                 .orElseThrow(() -> new ToDoItemException("Folder not found!"));
-        if (!isAccess(folder.getOwnerId())) {
+        if (!isAccess(id)) {
             throw new AccessDeniedException("You don have permission for this Folder");
         }
         //Пошел по самому простмоу пути, чтобы не обходить рекурсивно папки и не менять паренты папкам и замтеткам

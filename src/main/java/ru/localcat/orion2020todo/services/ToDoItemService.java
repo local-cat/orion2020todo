@@ -71,7 +71,7 @@ public class ToDoItemService {
     public void deleteToDoItem(Long id) {
         ToDoItem toDoItem = toDoItemRepository.findById(id)
                 .orElseThrow(() -> new ToDoItemException("ToDoItem not found!"));
-        if (!isAccess(toDoItem.getOwnerId())) {
+        if (!isAccess(id)) {
             throw new AccessDeniedException("You don have permission for this todoItem");
         }
         toDoItemRepository.delete(toDoItem);

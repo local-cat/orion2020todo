@@ -1,0 +1,438 @@
+i.iconspace
+{
+	padding-right: 10px;
+	/* color: #FEFEFE; */
+}
+
+i.iconspace-xs
+{
+	padding-right: 3px;
+	/* color: #FEFEFE; */
+}
+
+.user-active-0
+{
+	color: #ccc;
+}
+
+.user-active-1
+{
+	/* color: #5cb85c; */
+	color: #5bc0de;
+}
+
+
+.template-active-0
+{
+	color: #ccc;
+}
+
+.template-active-1
+{
+	color: #5bc0de;
+}
+
+
+
+a[id^="m_"]
+{
+	/* color: #89c6f9; */
+	color: #cdd5dc;
+}
+
+div.rowspaced
+{
+	margin: 25px 0px 0px 0px;
+}
+
+div.rowspaced-b10
+{
+	margin: 0px 0px 10px 0px;
+}
+
+
+.table thead th 
+{
+    vertical-align: bottom;
+    border-bottom: 2px solid #eceeef;
+}
+
+.thead-inverse th 
+{
+   /*  color: #fff; */
+	color: #717171;
+    /* background-color: #292b2c; */
+    /* background-color: #424546; */
+	/* background-color: #204573; */
+    background-color: #f5f5f5;
+}
+
+.thead-grey th
+{
+	 color: #fff;
+    background-color: #292b2c;
+}
+
+.table td, .table th 
+{
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #eceeef;
+}
+
+th {
+    text-align: left;
+}
+
+table.table-w-border
+{
+	border: 1px solid #ddd;
+	background: #FAFAFA;
+}
+
+table.table-template-variables td
+{
+	font-size: 12px;
+	font-family: Verdana;
+	color: #337ab7;
+}
+
+table.table-template-variables  td:nth-of-type(odd) 
+{
+    /* background-color: #f2f2f2; */
+	color: #777;
+}
+
+.checkbox
+{
+	padding: 0px 0px 0px 23px;
+}
+
+.form-left .checkbox {
+    font-weight: normal;
+}
+
+.form-left
+{
+    max-width: 350px;
+    padding: 0px 5px;
+} 
+
+.form-left-template
+{
+    /* max-width: 350px; */
+    padding: 0px 5px;
+} 
+
+.navbar-brand-user
+{
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #dbdcde;
+	/* font-weight: 700; */
+}
+
+.download-file
+{
+	width: 90%;
+	text-align: left;
+}
+
+.row-deleted
+{
+	color: #adadad;
+    background-color: #f0f0f0;
+}
+
+.row-deleted .delete-info
+{
+	font-size: 12px;
+}
+
+
+.row-history
+{
+	color: #555;
+    background-color: #f4f4f4;
+}
+
+.row-history .history-info
+{
+	font-size: 12px;
+}
+
+
+
+
+
+
+
+.status-list > li > a 
+{
+    font-size: 12px;
+}
+
+
+
+
+.status-style-1
+{
+		background: #FFFFFF;
+}
+
+.status-style-2
+{
+		background: #d9edf7;
+}
+
+.status-style-3
+{
+		background: #fcf8e3 ;
+}
+
+.status-style-4
+{
+		background: #fcf8e3 ;
+}
+
+.status-style-5
+{
+		/* background: #f2dede; */
+		background: #dff0d8;
+
+}
+
+.status-style-6
+{
+		background: #e2e2e2;
+}
+
+.status-style-7
+{
+	/* background: #f2dede; */
+	background: #717171;
+    color: #bfbfbf;
+}
+
+
+
+
+.a-status-style-1
+{
+		background: #FFFFFF;
+}
+
+.a-status-style-2
+{
+		background: #d9edf7;
+}
+
+.a-status-style-3
+{
+		background: #fcf8e3 ;
+}
+
+.a-status-style-4
+{
+		background: #82d5ff ;
+}
+
+.a-status-style-5
+{
+		/* background: #f2dede; */
+		background: #dff0d8;
+
+}
+
+.a-status-style-6
+{
+		background: #e2e2e2;
+}
+
+.a-status-style-7
+{
+	/* background: #f2dede; */
+	background: #717171;
+    color: #bfbfbf;
+}
+
+
+
+.main-page-div-1
+{
+	padding: 20px 10px;
+	
+}
+
+.main-page-div-2
+{
+	color: #d5e6ff;
+    background-color: #4473b7;
+    border-color: #375d94;
+	padding: 30px 50px 40px 50px;
+}
+
+.main-page-div-2 h3
+{
+	height: 70px;
+}
+
+.main-page-div-count
+{
+	color: #ffffff;
+	font-size: 56px;
+
+}
+
+
+
+
+
+.charges-history-status
+{
+	font-weight: bold;
+	color: #5cb85c;
+}
+
+
+.charges-history-note
+{
+	font-weight: bold;
+	color: #5bc0de;
+	
+}
+
+
+
+/* * FILE ICONS TYPES                 ************************************************************     * */
+
+.filetypeext-doc:before {
+    content: "\f1c2";
+	color: #3D86DE;
+}
+
+.filetypeext-xls:before {
+    content: "\f1c3";
+	color:#4F943B;
+}
+
+.filetypeext-pdf:before {
+    content: "\f1c1";
+	color: #DC1C00;
+}
+
+.filetypeext-ai:before {
+    content: "\f1c9";
+	color: #DC1C00;
+}
+
+.filetypeext-eps:before {
+   content: "\f1c9";
+	color: #DC1C00;
+}
+
+.filetypeext-cdr:before {
+    content: "\f1c9";
+	color: #9AD361;
+}
+
+.filetypeext-tiff:before {
+    content: "\f1c5";
+	color: #A7774B;
+}
+
+.filetypeext-tif:before {
+    content: "\f1c5";
+	color: #A7774B;
+}
+
+.filetypeext-psd:before {
+    content: "\f1c5";
+	color: #0E0E7E;
+}
+
+.filetypeext-jpeg:before {
+     content: "\f1c5";
+	color:#74B4FF;
+}
+
+.filetypeext-jpg:before {
+    content: "\f1c5";
+	color: #74B4FF;
+}
+
+.filetypeext-txt:before {
+    content: "\f0f6";
+    color: #66696d;
+}
+
+.filetypeext-gif:before {
+    content: "\f1c5";
+	color: #73AC3B;
+}
+
+.filetypeext-png:before {
+    content: "\f1c5";
+	color: #5C89C3;
+}
+
+.filetypeext-dwg:before {
+   content: "\f1c9";
+	color: #173AA0;
+}
+
+.filetypeext-dxf:before {
+   content: "\f1c9";
+	color: #CA9F3B;
+}
+
+.filetypeext-docx:before {
+    content: "\f1c2";
+	color: #3D86DE;
+}
+
+.filetypeext-zip:before {
+    content: "\f1c6";
+	color: #95467E;
+}
+
+.filetypeext-rar:before {
+   content: "\f1c6";
+	color: #95467E;
+}
+
+.filetypeext-sit:before {
+	content: "\f1c6";
+	color: #95467E;
+}
+
+.filetypeext-7z:before {
+	content: "\f1c6";
+	color: #95467E;
+}
+
+.filetypeext-idml:before {
+    content: "\f1c9";
+	color: #EA47A4;
+}
+
+.filetypeext-indd:before {
+    content: "\f1c9";
+	color: #EA47A4;
+}
+
+/* * TEMPLATES ICONS TYPES                 ************************************************************     * */
+
+
+.template-type-web:before {
+    content: "\f268";
+	color: #333;
+}
+
+.template-type-file:before {
+    content: "\f1c2";
+	color: #333;
+}    

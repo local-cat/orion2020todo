@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ClientWebAppController {
     @GetMapping("/client")
     public String clientPage() {
-        return "client/app.html";
+        return "client/auth.html";
     }
 
     @GetMapping("/client/auth")
@@ -18,5 +18,10 @@ public class ClientWebAppController {
     @GetMapping("/client/app")
     public String clientApp() {
         return "client/app.html";
+    }
+
+    @GetMapping("/client/m.app")
+    public String clientMobileAdaptiveApp() {
+        return "client/mobile-adaptive-app.html";
     }
 }
