@@ -2,8 +2,7 @@
 
 Теперь она здесь )))
 
-![SummerToDo Screen]
-(https://github.com/local-cat/orion2020todo/docs/screen.png?raw=true "todo")
+![SummerToDo Screen](https://github.com/local-cat/orion2020todo/blob/master/docs/screen.png?raw=true "todo")
 
 ___
 
@@ -29,5 +28,4 @@ http://localhost:8081/api/v1/auth
 ____
 
 #### TECH DOCS
-
-see /docs/readme.md
+[Contribution guidelines for this project](docs/readme.md)
