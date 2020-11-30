@@ -28,4 +28,4 @@ http://localhost:8081/api/v1/auth
 ____
 
 #### TECH DOCS
-[Contribution guidelines for this project](docs/readme.md)
+[Guidelines for this project](docs/readme.md)
