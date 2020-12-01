@@ -8,6 +8,7 @@ $(document).ready(function() {
     let endpoint = '/api/v1';
 
 
+
     function createToDoItemCheckBox(itemFromResponse) {
         var checked = '';
         if(itemFromResponse.status) {
@@ -113,6 +114,7 @@ $(document).ready(function() {
                             '<td>'+createToDoItemCheckBox(item)+'</td>'+
                             '<td class="todoItemContent '+classViewItem+'" data-todo-id="'+item.id+'">'+item.content+'</td>'+
                             '<td>'+
+                                '<span class="fatodo-common fatodo-files" data-todo-id="'+item.id+'"></span> ' +
                                 '<span class="fatodo-common fatodo-edit" data-todo-id="'+item.id+'"></span> '+
                                 '<span class="fatodo-common fatodo-delete" data-todo-id="'+item.id+'"></span>' +
                             '</td>'+
@@ -360,6 +362,183 @@ $(document).on('click ', 'body .fatodo-delete', function(){
         }
     });
 
+
+//FILES ____________________
+
+
+    function refreshFilesList(toDoItemId) {
+            $.ajax(
+             {
+                    url: endpoint + '/files/' + toDoItemId,
+                    type: 'GET',
+                     beforeSend: function(request) {
+                        request.setRequestHeader("AuthToken", authKey);
+                     },
+                    success: function(data)
+                    {
+                        console.log(data);
+                        var fileList = '';
+
+                        if(data.length > 0) {
+                            data.forEach(function(item) {
+                                fileList = fileList + item.name + '<br />';
+                            });
+                        }
+
+                         $("body #file_list").html(fileList);
+                    },
+                    error: function(xhr, textStatus, errorThrown)
+                    {
+
+                    }
+             });
+    }
+
+    $(document).on('click ', 'body .fatodo-files', function(e)
+	{
+
+	  if($(this).attr('data-todo-id'))
+	  {
+		var container_id = $(this).attr('data-todo-id');
+
+		new $.Zebra_Dialog('<div id="files_container"></div>',
+		{
+		'buttons':  [],
+		'position': ['center', 'top + 60'],
+		'title': 'Files'
+		});
+
+		$("body #files_container").html(        '<div class="rowspaced">'+
+
+                                                        '<div id="files_table_list" style="height: 350px; overflow: auto; border:1px solid #eee; ">'+
+
+                                                            '<table class="table table-hover">'+
+                                                                '<thead class="thead">'+
+                                                                    '<tr>'+
+                                                                        '<th>'+
+                                                                         '   Имя файла'+
+                                                                        '</th>'+
+                                                                    '</tr>'+
+                                                                '</thead>'+
+                                                               ' <tbody>'+
+
+
+                                                                '<tr>'+
+                                                                '    <td>'+
+/*                                                                '        <button type="button" data-download-file="41" class="btn btn-xs btn-default download-file">'+
+                                                                '            <i class="fa fa-icon fa-download iconspace"></i>'+
+                                                                '            cat__2.svg'+
+                                                                '        </button>'+*/
+                                                                '<div id="file_list"> </div>' +
+                                                                '    </td>'+
+
+                                                                '</tr>'+
+
+
+                                                                '</tbody>'+
+                                                            '</table>'+
+
+
+                                                        '</div>'+
+
+                                                    '<div><br />'+
+                                                        '<button type="button" class="btn btn-primary " name="call_upl_files" id="call_upl_files"><i class="fa fa-icon fa-upload iconspace-xs"></i>Выберите файл(ы)</button> '+
+
+                                                        ' <button type="button" class="btn btn-success " name="btn_upl_files" id="btn_upl_files">'+
+                                                            '<i class="fa fa-icon fa-floppy-o iconspace-xs"></i>'+
+                                                            'Загрузить файлы'+
+                                                        '</button>'+
+                                                    '</div>'+
+
+                                                    '<div style="display: none;">'+
+                                                        '<form id="form_upload_files" name="form_upload_files" enctype="multipart/form-data">'+
+                                                            '<input type="file" name="files[]" id="upl_files" size="300" data-multiple-caption="Выбрано файлов: {count}" multiple="">'+
+                                                            '<input type="hidden" name="entity_id" id="entity_id" value="'+container_id+'">'+
+                                                        '</form>'+
+                                                    '</div>'+
+                                                '</div>');
+
+        refreshFilesList(container_id);
+
+        $("body #call_upl_files").on('click',function(e)
+        {
+            //e.preventDefault();
+            $('#upl_files').click();
+        });
+
+        $("#upl_files").on('change',function(e)
+        {
+            $('body #call_upl_files').html('<i class="fa fa-icon fa-upload iconspace-xs"></i>Выберите файл(ы)');
+            e.preventDefault();
+
+            //labelVal = $('#call_upl_files').html();
+            var fileName = '';
+            if (this.files && this.files.length > 1)
+                fileName = ( this.getAttribute('data-multiple-caption') || '' ).replace('{count}', this.files.length);
+            else
+                fileName = e.target.value.split('\\').pop();
+
+            if (fileName)
+                $('body #call_upl_files').html(fileName);
+            else
+                $('body #call_upl_files').html(file_upload_label);
+        });
+
+	$("body #btn_upl_files").on('click',function(e)
+	{
+	    console.log('PI!!!!!!!!!!!!!!!!!!!')
+		e.preventDefault();
+
+		var form_options = {
+			url: endpoint + '/files/upload/multi',
+			type: 'POST',
+             beforeSend: function(request) {
+                request.setRequestHeader("AuthToken", authKey);
+             },
+			complete: function(response)
+			{
+				//$("#files_list_container").html(response.responseText);
+				//init_user_workspace();
+				//init_files_window_workspace();
+				refreshFilesList(container_id);
+				e.preventDefault();
+			},
+
+			error: function()
+			{
+				//$("#files_list_container").html('ERROR!');
+				console.log('PICHAL!!!!!!!!!!!!!!!!!!!')
+			}
+		};
+
+		$("body #form_upload_files").ajaxForm(form_options);
+		$("body #form_upload_files").submit();
+	});
+
+/*		$.ajax(
+		 {
+				url: '/upload/multi',
+				type: 'POST',
+				beforeSend: function()
+				{
+					//$("#files_list_container").html(loader_progress);
+				},
+				success: function(data)
+				{
+					$("#files_list_container").html(data);
+					init_files_window_workspace();
+					//init_income_workspace();
+				},
+
+				error: function(xhr, textStatus, errorThrown)
+				{
+					$("#workspace").html('ERROR!');
+				}
+		 });*/
+
+	  }
+
+	});
 
 //TECHNICAL
     $(document).on('click', '#signOutButton', function(){

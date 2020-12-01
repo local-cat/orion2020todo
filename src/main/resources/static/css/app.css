@@ -88,6 +88,12 @@
 
 /* to_do __________________________________*/
 
+.fatodo-files::after {
+    content: '\f0c6';
+}
+.fatodo-files:hover::after{
+    color: #77a3d5;
+}
 
 .fatodo-edit::after {
     content: '\f044';
