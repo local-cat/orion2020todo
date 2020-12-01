@@ -20,7 +20,6 @@ public class FolderV1Controller {
     @Autowired
     private FolderService folderService;
 
-    //TODO Можно ли как два нижних метода объединить в один , а тчонее объеденить их ГЕтМаппинги?
     @GetMapping()
     public List<Folder> getFolders() {
         return folderService.getFoldersList(FolderService.SUPER_PARENT_FOLDER_ID);

@@ -46,7 +46,6 @@ public class FolderService {
     public Folder updateFolder(Long folderId, Folder folder) {
         Folder folderInDb = folderRepository.findById(folderId)
                 .orElseThrow(() -> new FolderException("Folder not found!"));
-// TODO проверку мне азпилить для парент деректории
 
         if (!isAccess(folderInDb.getParentId())) {
             throw new AccessDeniedException("You don have permission for this Folder");

@@ -16,16 +16,6 @@ public class AuthUserContextService {
     @Autowired
     private UserRepository userRepository;
 
-//TODO так не работает, а как можно вынести  authentication, и возможно ли ?
-/*
-    private Authentication authentication;
-
-    @PostConstruct
-    public void init() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    }
-*/
-
     public long getId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();

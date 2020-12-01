@@ -1,4 +1,3 @@
-//TODO ставить и ьрать из куки?
 var globalVarCurrentFolderId = 0;
 var globalMaxLenghtForTrimText = 20;
 

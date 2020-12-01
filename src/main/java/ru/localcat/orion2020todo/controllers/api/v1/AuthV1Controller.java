@@ -53,8 +53,6 @@ public class AuthV1Controller {
         }
     }
 
-    //TODO не работает, но наврное и не должна?
-    //TODO просто выпилить? JWT токен нельзя ведь обнулить? если только вести список заблокированых токенов?
     @GetMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler securityContextLogoutHandler = new SecurityContextLogoutHandler();
