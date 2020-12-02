@@ -44,15 +44,15 @@ $(document).ready(function() {
                            '<div class="folderAttr" data-folder-id = "'+item.id+'" data-folder-name="'+item.name+'">'+
                                shorterText(item.name)+
                            '</div> '+
-                           '<div class="newFolder" style="display: inline-block; color: #03a023; font-weight: bold;"> '+
-                               '<span class="fafolder-common fafolder-new" data-folder-id="'+item.id+'"></span>'+
+/*                           '<div class="newFolder" style="display: inline-block; color: #03a023; font-weight: bold;"> '+
+                               '<span class="fafolder-common fafolder-new action-folder-new" data-folder-id="'+item.id+'"></span>'+
                            '</div>'+
                            '<div class="editFolder" style="display: inline-block; color: #0369a0; font-weight: bold;"> '+
-                               '<span class="fafolder-common fafolder-edit" data-folder-id="'+item.id+'" data-folder-name="'+item.name+'"></span>'+
+                               '<span class="fafolder-common fafolder-edit action-folder-edit" data-folder-id="'+item.id+'" data-folder-name="'+item.name+'"></span>'+
                            '</div>'+
                            '<div class="editFolder" style="display: inline-block; color: #a00359; font-weight: bold;"> '+
-                               '<span class="fafolder-common fafolder-delete" data-folder-id="'+item.id+'" data-folder-name="'+item.name+'"></span>'+
-                           '</div>'+
+                               '<span class="fafolder-common fafolder-delete action-folder-delete" data-folder-id="'+item.id+'" data-folder-name="'+item.name+'"></span>'+
+                           '</div>'+*/
                            '<div class="folderListContainer" data-parent-folder-id = "'+item.id+'" >'+
                            '</div>'+
                    '</li>';
@@ -157,7 +157,7 @@ $(document).ready(function() {
     });
 
     //create NEW FOLDER
-    $(document).on('click ', 'body .fafolder-new', function(){
+    $(document).on('click ', 'body .action-folder-new', function(){
         var folderParentId = $(this).attr("data-folder-id");
 
         let folderName = prompt('Name new folder?', 'New folder');
@@ -186,7 +186,7 @@ $(document).ready(function() {
     });
 
     //edit FOLDER
-    $(document).on('click ', 'body .fafolder-edit', function(){
+    $(document).on('click ', 'body .action-folder-edit', function(){
         var folderId = $(this).attr("data-folder-id");
         let folderName = prompt('Rename folder?', $(this).attr("data-folder-name"));
 
@@ -214,7 +214,7 @@ $(document).ready(function() {
     });
 
     //delete FOLDER
-    $(document).on('click ', 'body .fafolder-delete', function(){
+    $(document).on('click ', 'body .action-folder-delete', function(){
         var folderId = $(this).attr("data-folder-id");
         var folderName = $(this).attr("data-folder-name")
 
@@ -545,5 +545,296 @@ $(document).on('click ', 'body .fatodo-delete', function(){
            window.location.replace(client + clientAuth);
     });
 
+
+var menu = document.querySelector('.menu');
+
+function showMenu(x, y){
+    menu.style.left = x + 'px';
+    menu.style.top = y + 'px';
+    menu.classList.add('show-menu');
+}
+/*function hideMenu(){
+    menu.classList.remove('show-menu');
+}
+
+function onContextMenu(e){
+    e.preventDefault();
+    showMenu(e.pageX, e.pageY);
+    $('body .folderAttr').bind('mousedown', onMouseDown, false);
+}
+function onMouseDown(e){
+    hideMenu();
+    $('body .folderAttr').unbind('mousedown', onMouseDown);
+}
+$('body .folderAttr').bind('contextmenu', onContextMenu, false);*/
+
+
+
+/*function hideMenu(){
+    menu.classList.remove('show-menu');
+}
+
+function onContextMenu(e){
+    e.preventDefault();
+    showMenu(e.pageX, e.pageY);
+    $(document).on('mousedown', 'body .folderAttr', onMouseDown);
+}
+function onMouseDown(e){
+    hideMenu();
+    //$(document).off('mousedown', 'body .folderAttr', onMouseDown);
+    document.removeEventListener('mousedown', onMouseDown);
+}
+
+$(document).on('contextmenu', 'body .folderAttr', onContextMenu);*/
+
+
+
+
+ /**
+   * Function to check if we clicked inside an element with a particular class
+   * name.
+   *
+   * @param {Object} e The event
+   * @param {String} className The class name to check against
+   * @return {Boolean}
+   */
+  function clickInsideElement( e, className ) {
+    var el = e.srcElement || e.target;
+
+    if ( el.classList.contains(className) ) {
+      return el;
+    } else {
+      while ( el = el.parentNode ) {
+        if ( el.classList && el.classList.contains(className) ) {
+          return el;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Get's exact position of event.
+   *
+   * @param {Object} e The event passed in
+   * @return {Object} Returns the x and y position
+   */
+  function getPosition(e) {
+    var posx = 0;
+    var posy = 0;
+
+    if (!e) var e = window.event;
+
+    if (e.pageX || e.pageY) {
+      posx = e.pageX;
+      posy = e.pageY;
+    } else if (e.clientX || e.clientY) {
+      posx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+      posy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }
+
+    return {
+      x: posx,
+      y: posy
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //
+  // CONTEXT C O R E    F U N C T I O N S
+  //
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Variables.
+   */
+  var contextMenuClassName = "context-menu";
+  var contextMenuItemClassName = "context-menu__item";
+  var contextMenuLinkClassName = "context-menu__link";
+  var contextMenuActive = "context-menu--active";
+
+  var taskItemClassName = "folderAttr";
+  var taskItemInContext;
+
+  var clickCoords;
+  var clickCoordsX;
+  var clickCoordsY;
+
+  var menu = document.querySelector("#context-menu");
+  var menuItems = menu.querySelectorAll(".context-menu__item");
+  var menuState = 0;
+  var menuWidth;
+  var menuHeight;
+  var menuPosition;
+  var menuPositionX;
+  var menuPositionY;
+
+  var windowWidth;
+  var windowHeight;
+
+  /**
+   * Initialise our application's code.
+   */
+  function init() {
+    contextListener();
+    clickListener();
+    keyupListener();
+    resizeListener();
+  }
+
+  /** !!!!!!!!!!!!!!!!!!!!!!!
+   * Listens for contextmenu events.
+   */
+  function contextListener() {
+    document.addEventListener( "contextmenu", function(e) {
+      taskItemInContext = clickInsideElement( e, taskItemClassName );
+
+      if ( taskItemInContext ) {
+        e.preventDefault();
+
+        var dataFolderId = 0;
+        if(e.target.attributes['data-folder-id'] != undefined) {
+            dataFolderId = e.target.attributes['data-folder-id'].value;
+        }
+
+        var dataFolderName = '';
+        if(e.target.attributes['data-folder-name'] != undefined) {
+            dataFolderName = e.target.attributes['data-folder-name'].value;
+        }
+
+        $("body .context-menu__link").each(
+            function (index, elem) {
+                //Kostyl
+                if(dataFolderId == 0) {
+                     $(elem).css("display","none");
+                     if($(elem).attr("data-action") == "Create") {
+                        $(elem).css("display","block");
+                     }
+                }
+                else
+                {
+                    $(elem).css("display","block");
+                }
+
+
+                $(elem).attr("data-folder-id", dataFolderId);
+                $(elem).attr("data-folder-name", dataFolderName);
+            }
+        );
+
+        toggleMenuOn();
+        positionMenu(e);
+      } else {
+        taskItemInContext = null;
+        toggleMenuOff();
+      }
+    });
+  }
+
+  /**
+   * Listens for click events.
+   */
+  function clickListener() {
+    document.addEventListener( "click", function(e) {
+      var clickeElIsLink = clickInsideElement( e, contextMenuLinkClassName );
+
+      if ( clickeElIsLink ) {
+        e.preventDefault();
+        menuItemListener( clickeElIsLink );
+      } else {
+        var button = e.which || e.button;
+        if ( button === 1 ) {
+          toggleMenuOff();
+        }
+      }
+    });
+  }
+
+  /**
+   * Listens for keyup events.
+   */
+  function keyupListener() {
+    window.onkeyup = function(e) {
+      if ( e.keyCode === 27 ) {
+        toggleMenuOff();
+      }
+    }
+  }
+
+  /**
+   * Window resize event listener
+   */
+  function resizeListener() {
+    window.onresize = function(e) {
+      toggleMenuOff();
+    };
+  }
+
+  /**
+   * Turns the custom context menu on.
+   */
+  function toggleMenuOn() {
+    if ( menuState !== 1 ) {
+      menuState = 1;
+      menu.classList.add( contextMenuActive );
+    }
+  }
+
+  /**
+   * Turns the custom context menu off.
+   */
+  function toggleMenuOff() {
+    if ( menuState !== 0 ) {
+      menuState = 0;
+      menu.classList.remove( contextMenuActive );
+    }
+  }
+
+  /**
+   * Positions the menu properly.
+   *
+   * @param {Object} e The event
+   */
+  function positionMenu(e) {
+    clickCoords = getPosition(e);
+    clickCoordsX = clickCoords.x;
+    clickCoordsY = clickCoords.y;
+
+    menuWidth = menu.offsetWidth + 4;
+    menuHeight = menu.offsetHeight + 4;
+
+    windowWidth = window.innerWidth;
+    windowHeight = window.innerHeight;
+
+    if ( (windowWidth - clickCoordsX) < menuWidth ) {
+      menu.style.left = windowWidth - menuWidth + "px";
+    } else {
+      menu.style.left = clickCoordsX + "px";
+    }
+
+    if ( (windowHeight - clickCoordsY) < menuHeight ) {
+      menu.style.top = windowHeight - menuHeight + "px";
+    } else {
+      menu.style.top = clickCoordsY + "px";
+    }
+  }
+
+  /**
+   * Dummy action function that logs an action when a menu item link is clicked
+   *
+   * @param {HTMLElement} link The link that was clicked
+   */
+  function menuItemListener( link ) {
+    console.log( "Task ID - " + taskItemInContext.getAttribute("data-id") + ", Task action - " + link.getAttribute("data-action"));
+    toggleMenuOff();
+  }
+
+  /**
+   * Run the app.
+   */
+   init();
 
 });

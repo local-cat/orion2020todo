@@ -46,21 +46,24 @@
     content: '\f055';
 }
 .fafolder-new:hover::after{
-    color: #7dc38c;
+/*    color: #7dc38c;*/
+    color: #ffffff;
 }
 
 .fafolder-edit::after {
     content: '\f044';
 }
 .fafolder-edit:hover::after{
-    color: #a1a1a1;
+/*    color: #a1a1a1;*/
+    color: #ffffff;
 }
 
 .fafolder-delete::after {
     content: '\f2ed';
 }
 .fafolder-delete:hover::after{
-    color: #c37d7d;
+/*    color: #c37d7d;*/
+    color: #ffffff;
 }
 
 .fafolder-common {
@@ -69,7 +72,7 @@
     font-size: 1.1em;
     width: 32px;
     height: 30px;
-    color: #d6d6d6;
+    color: #274861;
     margin-right: .5em;
     cursor: pointer;
 }
@@ -87,6 +90,7 @@
 
 
 /* to_do __________________________________*/
+
 
 .fatodo-files::after {
     content: '\f0c6';
@@ -118,4 +122,50 @@
     color: #d6d6d6;
     margin-right: .5em;
     cursor: pointer;
+}
+
+
+/*context_menu*/
+
+.context-menu {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    padding: 12px 0;
+    width: 240px;
+    background-color: #fff;
+    border: solid 1px #dfdfdf;
+    box-shadow: 1px 1px 2px #cfcfcf;
+}
+
+.context-menu--active {
+    display: block;
+}
+
+.context-menu__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.context-menu__item {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.context-menu__item:last-child {
+    margin-bottom: 0;
+}
+
+.context-menu__link {
+    display: block;
+    padding: 4px 12px;
+    color: #0066aa;
+    text-decoration: none;
+}
+
+.context-menu__link:hover {
+    color: #fff;
+    background-color: #45a7ef;
+    text-decoration: none;
 }
