@@ -3,6 +3,7 @@ package ru.localcat.orion2020todo.controllers.api.v1;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.localcat.orion2020todo.constants.ApiConstants;
@@ -28,6 +29,7 @@ public class ToDoItemV1Controller {
 
     //TODO не лучшая реализация
     @GetMapping("/folders/{idsText}")
+    @PreAuthorize("hasAuthority('selftodo:read')")
     public List<ToDoItem> getToDoItemsListInFolders(@PathVariable(value = "idsText") String folderIdsInLine) {
         if(folderIdsInLine == null) {
             throw new RuntimeException("List of folders is empty!");
@@ -40,11 +42,13 @@ public class ToDoItemV1Controller {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('selftodo:create')")
     public ToDoItem createToDoItem(@Valid @RequestBody ToDoItem toDoItem) {
         return toDoItemService.createToDoItem(toDoItem);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('selftodo:edit')")
     public ToDoItem updateToDoItem(@PathVariable(value = "id") Long toDoItemId,
                            @Valid @RequestBody ToDoItem toDoItemDetails) throws NoSuchAlgorithmException {
         try {
@@ -55,6 +59,7 @@ public class ToDoItemV1Controller {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('selftodo:delete')")
     public ResponseEntity deleteToDoItem(@PathVariable(value = "id") Long toDoItemId) {
         try {
             toDoItemService.deleteToDoItem(toDoItemId);

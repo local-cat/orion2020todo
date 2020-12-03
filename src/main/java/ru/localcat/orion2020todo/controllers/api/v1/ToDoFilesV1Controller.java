@@ -2,6 +2,7 @@ package ru.localcat.orion2020todo.controllers.api.v1;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,6 +69,7 @@ public class ToDoFilesV1Controller {
     }*/
 
     @PostMapping("/upload/multi")
+    @PreAuthorize("hasAuthority('todofiles:upload')")
     public ResponseEntity<?> uploadFileMulti(
             @RequestPart(name = "files[]", required = false) MultipartFile[] uploadfiles,
             @RequestParam(value = "entity_id", required = false) String todoIdText) {
