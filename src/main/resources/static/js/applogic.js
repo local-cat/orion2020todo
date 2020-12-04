@@ -38,21 +38,23 @@ $(document).ready(function() {
             itemFromResponse.forEach( function(item) {
                 folderListTextStrorager = folderListTextStrorager +
                    '<li class="nav-item folderItem" data-folder-id="'+item.id+'">'+
-                           '<div style="display: inline-block">'+
-                               '<span class="fafolder"></span>'+
-                           '</div>'+
-                           '<div class="folderAttr" data-folder-id = "'+item.id+'" data-folder-name="'+item.name+'">'+
-                               shorterText(item.name)+
-                           '</div> '+
-/*                           '<div class="newFolder" style="display: inline-block; color: #03a023; font-weight: bold;"> '+
-                               '<span class="fafolder-common fafolder-new action-folder-new" data-folder-id="'+item.id+'"></span>'+
-                           '</div>'+
-                           '<div class="editFolder" style="display: inline-block; color: #0369a0; font-weight: bold;"> '+
-                               '<span class="fafolder-common fafolder-edit action-folder-edit" data-folder-id="'+item.id+'" data-folder-name="'+item.name+'"></span>'+
-                           '</div>'+
-                           '<div class="editFolder" style="display: inline-block; color: #a00359; font-weight: bold;"> '+
-                               '<span class="fafolder-common fafolder-delete action-folder-delete" data-folder-id="'+item.id+'" data-folder-name="'+item.name+'"></span>'+
-                           '</div>'+*/
+                        //'<div class="folderItemStyle">'+
+                               '<div style="display: inline-block">'+
+                                   '<span class="fafolder"></span>'+
+                               '</div>'+
+                               '<div class="folderAttr" data-folder-id = "'+item.id+'" data-folder-name="'+item.name+'">'+
+                                   shorterText(item.name)+
+                               '</div> '+
+    /*                           '<div class="newFolder" style="display: inline-block; color: #03a023; font-weight: bold;"> '+
+                                   '<span class="fafolder-common fafolder-new action-folder-new" data-folder-id="'+item.id+'"></span>'+
+                               '</div>'+
+                               '<div class="editFolder" style="display: inline-block; color: #0369a0; font-weight: bold;"> '+
+                                   '<span class="fafolder-common fafolder-edit action-folder-edit" data-folder-id="'+item.id+'" data-folder-name="'+item.name+'"></span>'+
+                               '</div>'+
+                               '<div class="editFolder" style="display: inline-block; color: #a00359; font-weight: bold;"> '+
+                                   '<span class="fafolder-common fafolder-delete action-folder-delete" data-folder-id="'+item.id+'" data-folder-name="'+item.name+'"></span>'+
+                               '</div>'+*/
+                           //'</div>'+
                            '<div class="folderListContainer" data-parent-folder-id = "'+item.id+'" >'+
                            '</div>'+
                    '</li>';
@@ -160,57 +162,88 @@ $(document).ready(function() {
     $(document).on('click ', 'body .action-folder-new', function(){
         var folderParentId = $(this).attr("data-folder-id");
 
-        let folderName = prompt('Name new folder?', 'New folder');
+        var jBoxApp = new jBox("Confirm", {
+            confirmButton: "Create",
+            cancelButton: "Cancel",
+            content: "Name for new folder <br /><br />" +
+                    '<input id="folderName" value="New folder"/>',
+            blockScroll: false,
+            cancel: function () {
+                jBoxApp.destroy();
+            },
+            confirm: function () {
+                $.ajax({
+                     url: endpoint + '/folders/',
+                     beforeSend: function(request) {
+                        request.setRequestHeader("AuthToken", authKey);
+                     },
+                     type: "POST",
+                     contentType: "application/json;charset=utf-8",
+                      data : JSON.stringify({
+                          "parentId" : folderParentId,
+                          "name" : $('body #folderName').val()
+                       }),
+                      dataType:'json',
+                     success: function (response) {
+                          $('body .folderAttr[data-folder-id="' + folderParentId + '"]').click();
+                          jBoxApp.destroy();
+                     },
+                     error: function(error){
+                          console.log("Folder Error", error);
+                     }
+                });
+            }
+        });
+        jBoxApp.open();
 
-        if(folderName != null) {
-            $.ajax({
-                 url: endpoint + '/folders/',
-                 beforeSend: function(request) {
-                    request.setRequestHeader("AuthToken", authKey);
-                 },
-                 type: "POST",
-                 contentType: "application/json;charset=utf-8",
-                  data : JSON.stringify({
-                      "parentId" : folderParentId,
-                      "name" : folderName
-                   }),
-                  dataType:'json',
-                 success: function (response) {
-                      $('body .folderAttr[data-folder-id="' + folderParentId + '"]').click();
-                 },
-                 error: function(error){
-                      console.log("Folder Error", error);
-                 }
-            });
-        }
     });
 
     //edit FOLDER
     $(document).on('click ', 'body .action-folder-edit', function(){
         var folderId = $(this).attr("data-folder-id");
-        let folderName = prompt('Rename folder?', $(this).attr("data-folder-name"));
+        var folderName = $(this).attr("data-folder-name");
 
-        if(folderName != null) {
-            $.ajax({
-                 url: endpoint + '/folders/' + folderId,
-                 beforeSend: function(request) {
-                    request.setRequestHeader("AuthToken", authKey);
-                 },
-                 type: "PUT",
-                 contentType: "application/json;charset=utf-8",
-                  data : JSON.stringify({
-                      "name" : folderName
-                   }),
-                  dataType:'json',
-                 success: function (response) {
 
-                      $('body .folderAttr[data-folder-id="' + folderId + '"]').text(folderName);
-                 },
-                 error: function(error){
-                      console.log("Folder Error", error);
-                 }
-            });
-        }
+        var jBoxApp = new jBox("Confirm", {
+                    confirmButton: "Save",
+                    cancelButton: "Cancel",
+                    content: "Rename folder? <br /><br />" +
+                            '<input id="folderName" value="'+folderName+'"/>',
+                    blockScroll: false,
+                    cancel: function () {
+                        jBoxApp.destroy();
+                    },
+                    confirm: function () {
+                        $.ajax({
+                             url: endpoint + '/folders/' + folderId,
+                             beforeSend: function(request) {
+                                request.setRequestHeader("AuthToken", authKey);
+                             },
+                             type: "PUT",
+                             contentType: "application/json;charset=utf-8",
+                              data : JSON.stringify({
+                                  "name" : $('body #folderName').val()
+                               }),
+                              dataType:'json',
+                             success: function (response) {
+                                  $('body .folderAttr[data-folder-id="' + folderId + '"]').text(folderName);
+                                  jBoxApp.destroy();
+                                 new jBox('Notice', {
+                                    content: 'Success',
+                                    color: 'green'
+                                  });
+                             },
+                             error: function(error){
+                                 new jBox('Notice', {
+                                    content: 'Folder Error',
+                                    color: 'red'
+                                  });
+                             }
+                        });
+                    }
+                });
+                jBoxApp.open();
+
     });
 
     //delete FOLDER
@@ -218,24 +251,41 @@ $(document).ready(function() {
         var folderId = $(this).attr("data-folder-id");
         var folderName = $(this).attr("data-folder-name")
 
-        let folderDeleteCondition = confirm('Delete folder "' + folderName +'" ?');
+        var jBoxApp = new jBox("Confirm", {
+                    confirmButton: "Delete",
+                    cancelButton: "Cancel",
+                    content: 'Delete folder <b>"' + folderName +'"</b> ?',
+                    blockScroll: false,
+                    cancel: function () {
+                        jBoxApp.destroy();
+                    },
+                    confirm: function () {
+                        $.ajax({
+                             url: endpoint + '/folders/' + folderId,
+                             beforeSend: function(request) {
+                                request.setRequestHeader("AuthToken", authKey);
+                             },
+                             type: "DELETE",
+                             contentType: "application/json;charset=utf-8",
+                             success: function (response) {
+                                  $('body .folderItem[data-folder-id="' + folderId + '"]').hide();
+                                  new jBox('Notice', {
+                                    content: 'Folder <b>'+folderName+'</b> deleted',
+                                    color: 'green'
+                                  });
+                                  jBoxApp.destroy();
+                             },
+                             error: function(error){
+                                 new jBox('Notice', {
+                                   content: 'Folder cant be deleted!',
+                                   color: 'red'
+                                 });
+                             }
+                        });
+                    }
+                });
+                jBoxApp.open();
 
-        if(folderDeleteCondition) {
-            $.ajax({
-                 url: endpoint + '/folders/' + folderId,
-                 beforeSend: function(request) {
-                    request.setRequestHeader("AuthToken", authKey);
-                 },
-                 type: "DELETE",
-                 contentType: "application/json;charset=utf-8",
-                 success: function (response) {
-                      $('body .folderItem[data-folder-id="' + folderId + '"]').hide();
-                 },
-                 error: function(error){
-                      alert('Folder not may be deleted!');
-                 }
-            });
-        }
     });
 
 
@@ -262,7 +312,10 @@ $(document).ready(function() {
                     getToDoItemsFromFolder(globalVarCurrentFolderId);
                  },
                  error: function(error){
-                      console.log("Folder Error", error);
+                     new jBox('Notice', {
+                        content: 'Folder Error!',
+                        color: 'red'
+                      });
                  }
             });
         }
@@ -272,30 +325,47 @@ $(document).ready(function() {
 // edit to_do_item
     $(document).on('click ', 'body .fatodo-edit', function(){
         var todoItemID = $(this).attr("data-todo-id");
-        let todoText = prompt('What`s new?)', $('body .todoItemContent[data-todo-id="' + todoItemID + '"]').text());
-
-        if(todoText != null) {
-            $.ajax({
-                 url: endpoint + '/todoitems/' + todoItemID,
-                 beforeSend: function(request) {
-                    request.setRequestHeader("AuthToken", authKey);
-                 },
-                 type: "PUT",
-                 contentType: "application/json;charset=utf-8",
-                  data : JSON.stringify({
-                      "content" : todoText
-                   }),
-                  dataType:'json',
-                 success: function (response) {
-                    //не обновляем весь сипсок, не бесим пользоваля)
-                    $('body .todoItemContent[data-todo-id="' + todoItemID + '"]').text(todoText)
-                 },
-                 error: function(error){
-                        alert("Save error ;(");
-                      console.log("ToDo Item Error", error);
-                 }
-            });
-        }
+        var jBoxEdit = new jBox("Confirm", {
+            confirmButton: "Save",
+            cancelButton: "Cancel",
+            content: "" +
+                '<div><textarea id="noteTextContent" style="width: 100%;" rows="5"/>'+$('body .todoItemContent[data-todo-id="' + todoItemID + '"]').text() + '</textarea></div>',
+            blockScroll: false,
+            cancel: function () {
+                jBoxEdit.destroy();
+            },
+            confirm: function () {
+                  var todoText = $('body #noteTextContent').val();
+                  $.ajax({
+                       url: endpoint + '/todoitems/' + todoItemID,
+                       beforeSend: function(request) {
+                          request.setRequestHeader("AuthToken", authKey);
+                       },
+                       type: "PUT",
+                       contentType: "application/json;charset=utf-8",
+                        data : JSON.stringify({
+                            "content" : todoText
+                         }),
+                        dataType:'json',
+                       success: function (response) {
+                          //не обновляем весь сипсок, не бесим пользоваля)
+                          $('body .todoItemContent[data-todo-id="' + todoItemID + '"]').text(todoText);
+                           new jBox('Notice', {
+                              content: 'Success',
+                              color: 'green'
+                            });
+                          jBoxEdit.destroy();
+                       },
+                       error: function(error){
+                            new jBox('Notice', {
+                               content: 'Save error ;(',
+                               color: 'red'
+                             });
+                       }
+                  });
+                }
+        });
+        jBoxEdit.open();
     });
 
 // ckeck/uncheck to_do_item
@@ -329,10 +399,16 @@ $(document).ready(function() {
                 else {
                     $('body .todoItemContent[data-todo-id="' + todoItemID + '"]').addClass('activeTask').removeClass('completeTask');
                 }
+               new jBox('Notice', {
+                  content: 'Success',
+                  color: 'green'
+                });
              },
              error: function(error){
-                    alert("Save error ;(");
-                  console.log("ToDo Item Error", error);
+                 new jBox('Notice', {
+                    content: 'Save error ;(',
+                    color: 'red'
+                  });
              }
         });
     });
@@ -341,24 +417,39 @@ $(document).ready(function() {
 $(document).on('click ', 'body .fatodo-delete', function(){
         var todoItemId = $(this).attr("data-todo-id");
 
-        let todoItemDeleteCondition = confirm('Delete item  ?');
-
-        if(todoItemDeleteCondition) {
-            $.ajax({
-                 url: endpoint + '/todoitems/' + todoItemId,
-                 beforeSend: function(request) {
-                    request.setRequestHeader("AuthToken", authKey);
-                 },
-                 type: "DELETE",
-                 contentType: "application/json;charset=utf-8",
-                 success: function (response) {
-                      $('body .todoItem[data-todo-id="' + todoItemId + '"]').hide();
-                 },
-                 error: function(error){
-                      alert('TODO item not may be deleted!');
-                 }
-            });
-        }
+        var jBoxApp = new jBox("Confirm", {
+            confirmButton: "Delete",
+            cancelButton: "Cancel",
+            content: "Delete note?",
+            blockScroll: false,
+            cancel: function () {
+                jBoxApp.destroy();
+            },
+            confirm: function () {
+                  $.ajax({
+                       url: endpoint + '/todoitems/' + todoItemId,
+                       beforeSend: function(request) {
+                          request.setRequestHeader("AuthToken", authKey);
+                       },
+                       type: "DELETE",
+                       contentType: "application/json;charset=utf-8",
+                       success: function (response) {
+                            $('body .todoItem[data-todo-id="' + todoItemId + '"]').hide();
+                             new jBox('Notice', {
+                                content: 'TODO note deleted',
+                                color: 'green'
+                              });
+                       },
+                       error: function(error){
+                            new jBox('Notice', {
+                               content: 'TODO item cant be deleted!',
+                               color: 'red'
+                             });
+                       }
+                  });
+            }
+        });
+        jBoxApp.open();
     });
 
 
@@ -375,7 +466,6 @@ $(document).on('click ', 'body .fatodo-delete', function(){
                      },
                     success: function(data)
                     {
-                        console.log(data);
                         var fileList = '';
 
                         if(data.length > 0) {
@@ -407,55 +497,55 @@ $(document).on('click ', 'body .fatodo-delete', function(){
 		'title': 'Files'
 		});
 
-		$("body #files_container").html(        '<div class="rowspaced">'+
+		$("body #files_container").html(''+
+            '<div class="rowspaced">'+
+                '<div id="files_table_list" style="height: 350px; overflow: auto; border:1px solid #eee; ">'+
 
-                                                        '<div id="files_table_list" style="height: 350px; overflow: auto; border:1px solid #eee; ">'+
-
-                                                            '<table class="table table-hover">'+
-                                                                '<thead class="thead">'+
-                                                                    '<tr>'+
-                                                                        '<th>'+
-                                                                         '   Имя файла'+
-                                                                        '</th>'+
-                                                                    '</tr>'+
-                                                                '</thead>'+
-                                                               ' <tbody>'+
+                    '<table class="table table-hover">'+
+                        '<thead class="thead">'+
+                            '<tr>'+
+                                '<th>'+
+                                 '   Имя файла'+
+                                '</th>'+
+                            '</tr>'+
+                        '</thead>'+
+                       ' <tbody>'+
 
 
-                                                                '<tr>'+
-                                                                '    <td>'+
+                        '<tr>'+
+                        '    <td>'+
 /*                                                                '        <button type="button" data-download-file="41" class="btn btn-xs btn-default download-file">'+
-                                                                '            <i class="fa fa-icon fa-download iconspace"></i>'+
-                                                                '            cat__2.svg'+
-                                                                '        </button>'+*/
-                                                                '<div id="file_list"> </div>' +
-                                                                '    </td>'+
+                        '            <i class="fa fa-icon fa-download iconspace"></i>'+
+                        '            cat__2.svg'+
+                        '        </button>'+*/
+                        '<div id="file_list"> </div>' +
+                        '    </td>'+
 
-                                                                '</tr>'+
-
-
-                                                                '</tbody>'+
-                                                            '</table>'+
+                        '</tr>'+
 
 
-                                                        '</div>'+
+                        '</tbody>'+
+                    '</table>'+
 
-                                                    '<div><br />'+
-                                                        '<button type="button" class="btn btn-primary " name="call_upl_files" id="call_upl_files"><i class="fa fa-icon fa-upload iconspace-xs"></i>Выберите файл(ы)</button> '+
 
-                                                        ' <button type="button" class="btn btn-success " name="btn_upl_files" id="btn_upl_files">'+
-                                                            '<i class="fa fa-icon fa-floppy-o iconspace-xs"></i>'+
-                                                            'Загрузить файлы'+
-                                                        '</button>'+
-                                                    '</div>'+
+                '</div>'+
 
-                                                    '<div style="display: none;">'+
-                                                        '<form id="form_upload_files" name="form_upload_files" enctype="multipart/form-data">'+
-                                                            '<input type="file" name="files[]" id="upl_files" size="300" data-multiple-caption="Выбрано файлов: {count}" multiple="">'+
-                                                            '<input type="hidden" name="entity_id" id="entity_id" value="'+container_id+'">'+
-                                                        '</form>'+
-                                                    '</div>'+
-                                                '</div>');
+            '<div><br />'+
+                '<button type="button" class="btn btn-primary " name="call_upl_files" id="call_upl_files"><i class="fa fa-icon fa-upload iconspace-xs"></i>Выберите файл(ы)</button> '+
+
+                ' <button type="button" class="btn btn-success " name="btn_upl_files" id="btn_upl_files">'+
+                    '<i class="fa fa-icon fa-floppy-o iconspace-xs"></i>'+
+                    'Загрузить файлы'+
+                '</button>'+
+            '</div>'+
+
+            '<div style="display: none;">'+
+                '<form id="form_upload_files" name="form_upload_files" enctype="multipart/form-data">'+
+                    '<input type="file" name="files[]" id="upl_files" size="300" data-multiple-caption="Выбрано файлов: {count}" multiple="">'+
+                    '<input type="hidden" name="entity_id" id="entity_id" value="'+container_id+'">'+
+                '</form>'+
+            '</div>'+
+        '</div>');
 
         refreshFilesList(container_id);
 
@@ -485,7 +575,6 @@ $(document).on('click ', 'body .fatodo-delete', function(){
 
 	$("body #btn_upl_files").on('click',function(e)
 	{
-	    console.log('PI!!!!!!!!!!!!!!!!!!!')
 		e.preventDefault();
 
 		var form_options = {
@@ -496,17 +585,13 @@ $(document).on('click ', 'body .fatodo-delete', function(){
              },
 			complete: function(response)
 			{
-				//$("#files_list_container").html(response.responseText);
-				//init_user_workspace();
-				//init_files_window_workspace();
 				refreshFilesList(container_id);
 				e.preventDefault();
 			},
 
 			error: function()
 			{
-				//$("#files_list_container").html('ERROR!');
-				console.log('PICHAL!!!!!!!!!!!!!!!!!!!')
+
 			}
 		};
 
@@ -514,28 +599,7 @@ $(document).on('click ', 'body .fatodo-delete', function(){
 		$("body #form_upload_files").submit();
 	});
 
-/*		$.ajax(
-		 {
-				url: '/upload/multi',
-				type: 'POST',
-				beforeSend: function()
-				{
-					//$("#files_list_container").html(loader_progress);
-				},
-				success: function(data)
-				{
-					$("#files_list_container").html(data);
-					init_files_window_workspace();
-					//init_income_workspace();
-				},
-
-				error: function(xhr, textStatus, errorThrown)
-				{
-					$("#workspace").html('ERROR!');
-				}
-		 });*/
-
-	  }
+	 }
 
 	});
 
@@ -553,41 +617,6 @@ function showMenu(x, y){
     menu.style.top = y + 'px';
     menu.classList.add('show-menu');
 }
-/*function hideMenu(){
-    menu.classList.remove('show-menu');
-}
-
-function onContextMenu(e){
-    e.preventDefault();
-    showMenu(e.pageX, e.pageY);
-    $('body .folderAttr').bind('mousedown', onMouseDown, false);
-}
-function onMouseDown(e){
-    hideMenu();
-    $('body .folderAttr').unbind('mousedown', onMouseDown);
-}
-$('body .folderAttr').bind('contextmenu', onContextMenu, false);*/
-
-
-
-/*function hideMenu(){
-    menu.classList.remove('show-menu');
-}
-
-function onContextMenu(e){
-    e.preventDefault();
-    showMenu(e.pageX, e.pageY);
-    $(document).on('mousedown', 'body .folderAttr', onMouseDown);
-}
-function onMouseDown(e){
-    hideMenu();
-    //$(document).off('mousedown', 'body .folderAttr', onMouseDown);
-    document.removeEventListener('mousedown', onMouseDown);
-}
-
-$(document).on('contextmenu', 'body .folderAttr', onContextMenu);*/
-
-
 
 
  /**
