@@ -2,6 +2,10 @@
     color: #0051b1;
 }
 
+.folderColor::after {
+    color: var(--folder-color) !important;
+}
+
 .activeTask {
     color: #000000;
     text-decoration : none;

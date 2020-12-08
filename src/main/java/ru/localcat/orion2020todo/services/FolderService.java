@@ -31,6 +31,9 @@ public class FolderService {
     public Folder createFolder(Folder folder) {
         folder.setOwnerId(authUserContextService.getId());
         folder.setCreateAt(DateTimeHelper.getNowInEpocSeconds());
+        if(folder.getColorId() == null) {
+            folder.setColorId(0L);
+        }
         if (folder.getParentId() != null) {
             if (!isAccess(folder.getParentId())) {
                 throw new AccessDeniedException("You don have permission for this Folder");
@@ -57,6 +60,10 @@ public class FolderService {
 
         if (folder.getName() != null) {
             folderInDb.setName(folder.getName());
+        }
+
+        if(folder.getColorId() != null) {
+            folderInDb.setColorId(folder.getColorId());
         }
 
         folderInDb.setUpdateAt(DateTimeHelper.getNowInEpocSeconds());

@@ -13,27 +13,15 @@ import javax.persistence.Id;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Folder {
+public class Color {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private Long id;
-    @Getter
     @Setter
-    private Long parentId;
     @Getter
-    @Setter
     private String name;
-    @Getter
     @Setter
-    private Long ownerId;
     @Getter
-    @Setter
-    private Long colorId;
-    @Getter
-    @Setter
-    private Integer createAt;
-    @Getter
-    @Setter
-    private Integer updateAt;
+    private String rgbValue;
 }

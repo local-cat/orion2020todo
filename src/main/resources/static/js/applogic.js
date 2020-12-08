@@ -1,11 +1,15 @@
 var globalVarCurrentFolderId = 0;
 var globalMaxLenghtForTrimText = 20;
 
+let colorMap = new Map();
+let colorNamesList = new Map();
+
+let defaultColorRGBValue = "aeb9c0";
+
 $(document).ready(function() {
     let client = '/client';
     let clientAuth = '/auth';
     let endpoint = '/api/v1';
-
 
 
     function createToDoItemCheckBox(itemFromResponse) {
@@ -40,9 +44,9 @@ $(document).ready(function() {
                    '<li class="nav-item folderItem" data-folder-id="'+item.id+'">'+
                         //'<div class="folderItemStyle">'+
                                '<div style="display: inline-block">'+
-                                   '<span class="fafolder"></span>'+
+                                   '<span class="fafolder folderColor" style="--folder-color: #'+getColorRGBValueById(item.colorId)+';" ></span>'+
                                '</div>'+
-                               '<div class="folderAttr" data-folder-id = "'+item.id+'" data-folder-name="'+item.name+'">'+
+                               '<div class="folderAttr"  data-folder-id = "'+item.id+'" data-folder-name="'+item.name+'" data-folder-color-id="'+item.colorId+'">'+
                                    shorterText(item.name)+
                                '</div> '+
     /*                           '<div class="newFolder" style="display: inline-block; color: #03a023; font-weight: bold;"> '+
@@ -90,6 +94,59 @@ $(document).ready(function() {
         });
     }
 
+    function buildColorMap() {
+        $.ajax({
+             url: endpoint + '/colors',
+             beforeSend: function(request) {
+                request.setRequestHeader("AuthToken", authKey);
+             },
+             type: "GET",
+             dataType:'json',
+             success: function (response) {
+                   colorMap.set(0, defaultColorRGBValue);
+                   colorNamesList.set(0, 'default');
+                   if(response.length > 0) {
+                      response.forEach( function(item) {
+                         colorMap.set(item.id, item.rgbValue);
+                         colorNamesList.set(item.id, item.name);
+                      });
+                  }
+             },
+             error: function(error){
+                  console.log("Need colors", error);
+             }
+        });
+    }
+
+
+
+    function getColorRGBValueById(colorId) {
+        return colorMap.get(colorId);
+    }
+
+    function setColorInSelectByColorId(colorId) {
+        $('#colorList option[value='+colorId+']').prop('selected', true);
+    }
+
+    function getColorSelectListByColorId() {
+
+        var result = '';
+
+        result = result + '<div class="form-group">' +
+                               '<select id="colorList" class="form-control" size="1" name="colorList" >';
+
+        colorNamesList.forEach( (value, key, map) => {
+             result = result + '<option value="'+key+'">'+value+'</option>';
+
+        });
+
+        result = result + '</select>' +
+                       '</div>';
+
+
+        return result;
+    }
+
 
     function getToDoItemsFromFolder(folderIds) {
         $("#todoTableList > tbody").empty();
@@ -133,6 +190,7 @@ $(document).ready(function() {
     //init page
     checkPageAppAuth();
     getToDoItemsFromFolder(0);
+    buildColorMap();
 
 
     // add listeners
@@ -165,8 +223,8 @@ $(document).ready(function() {
         var jBoxApp = new jBox("Confirm", {
             confirmButton: "Create",
             cancelButton: "Cancel",
-            content: "Name for new folder <br /><br />" +
-                    '<input id="folderName" value="New folder"/>',
+            content: "Name for new folder <br />" +
+                    '<input id="folderName" value="New folder" class="form-control"/>',
             blockScroll: false,
             cancel: function () {
                 jBoxApp.destroy();
@@ -202,13 +260,16 @@ $(document).ready(function() {
     $(document).on('click ', 'body .action-folder-edit', function(){
         var folderId = $(this).attr("data-folder-id");
         var folderName = $(this).attr("data-folder-name");
+        var folderColorId = $(this).attr("data-folder-color-id");
 
 
         var jBoxApp = new jBox("Confirm", {
                     confirmButton: "Save",
                     cancelButton: "Cancel",
-                    content: "Rename folder? <br /><br />" +
-                            '<input id="folderName" value="'+folderName+'"/>',
+                    content: "<div>Folder name<br /></div>" +
+                            '<div><input id="folderName" value="'+folderName+'" class="form-control"/> <br /><br /></div>'+
+                            '<div>Folder color: <br /></div>' +
+                            '<div>' + getColorSelectListByColorId() + '</div>',
                     blockScroll: false,
                     cancel: function () {
                         jBoxApp.destroy();
@@ -222,7 +283,8 @@ $(document).ready(function() {
                              type: "PUT",
                              contentType: "application/json;charset=utf-8",
                               data : JSON.stringify({
-                                  "name" : $('body #folderName').val()
+                                  "name" : $('body #folderName').val(),
+                                  "colorId" : $('body #colorList').val()
                                }),
                               dataType:'json',
                              success: function (response) {
@@ -242,7 +304,8 @@ $(document).ready(function() {
                         });
                     }
                 });
-                jBoxApp.open();
+             jBoxApp.open();
+             setColorInSelectByColorId(folderColorId);
 
     });
 
@@ -329,7 +392,7 @@ $(document).ready(function() {
             confirmButton: "Save",
             cancelButton: "Cancel",
             content: "" +
-                '<div><textarea id="noteTextContent" style="width: 100%;" rows="5"/>'+$('body .todoItemContent[data-todo-id="' + todoItemID + '"]').text() + '</textarea></div>',
+                '<div><textarea id="noteTextContent" style="width: 100%;" rows="5" class="form-control"/>'+$('body .todoItemContent[data-todo-id="' + todoItemID + '"]').text() + '</textarea></div>',
             blockScroll: false,
             cancel: function () {
                 jBoxEdit.destroy();
@@ -734,6 +797,11 @@ function showMenu(x, y){
             dataFolderName = e.target.attributes['data-folder-name'].value;
         }
 
+        var dataFolderColorId = '';
+        if(e.target.attributes['data-folder-color-id'] != undefined) {
+            dataFolderColorId = e.target.attributes['data-folder-color-id'].value;
+        }
+
         $("body .context-menu__link").each(
             function (index, elem) {
                 //Kostyl
@@ -751,6 +819,7 @@ function showMenu(x, y){
 
                 $(elem).attr("data-folder-id", dataFolderId);
                 $(elem).attr("data-folder-name", dataFolderName);
+                $(elem).attr("data-folder-color-id", dataFolderColorId);
             }
         );
 
