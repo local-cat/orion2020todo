@@ -412,7 +412,7 @@ $(document).ready(function() {
                         dataType:'json',
                        success: function (response) {
                           //не обновляем весь сипсок, не бесим пользоваля)
-                          $('body .todoItemContent[data-todo-id="' + todoItemID + '"]').text(todoText);
+                          $('body .todoItemContent[data-todo-id="' + todoItemID + '"]').html(todoText);
                            new jBox('Notice', {
                               content: 'Success',
                               color: 'green'
