@@ -392,7 +392,7 @@ $(document).ready(function() {
             confirmButton: "Save",
             cancelButton: "Cancel",
             content: "" +
-                '<div><textarea id="noteTextContent" style="width: 100%;" rows="5" class="form-control"/>'+$('body .todoItemContent[data-todo-id="' + todoItemID + '"]').text() + '</textarea></div>',
+                '<div><textarea id="noteTextContent" style="width: 100%;" rows="5" class="form-control"/>'+$('body .todoItemContent[data-todo-id="' + todoItemID + '"]').html() + '</textarea></div>',
             blockScroll: false,
             cancel: function () {
                 jBoxEdit.destroy();
